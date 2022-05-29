@@ -1,0 +1,16 @@
+
+.idea/
+Library/
+Logs/
+obj/
+Temp/
+.cache.meta
+*.csproj
+*.sln
+Assets/Res
+Assets/Res.meta
+mono_crash*.json
+Assets/Plugins
+Assets/Plugins.meta
+Assets/Scripts
+Assets/Scripts.meta
