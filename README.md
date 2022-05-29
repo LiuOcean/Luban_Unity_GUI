@@ -18,3 +18,5 @@
 ## 生命周期
 
 在项目 `Editor` 代码定义继承 `IBeforeGen` 和 `IAfterGen`
+
+![image](https://github.com/LiuOcean/Luban_Unity_GUI/raw/main/Pics/GUI_Display.png)
