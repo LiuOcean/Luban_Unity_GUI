@@ -6,7 +6,7 @@
 - 如果使用 `UPM`可以在 `package.json` 中增加如下内容
 
 ```json
-"com.liuocean.luban_gui":"https://github.com/LiuOcean/Luban_Unity_GUI.git?path=Assets/"
+"com.liuocean.luban_unity_gui":"https://github.com/LiuOcean/Luban_Unity_GUI.git?path=Assets/"
 ```
 
 ## 创建配置文件
