@@ -16,8 +16,21 @@ namespace Luban.Editor
         {
             Debug.Log(arguments);
 
-            IBeforeGen before_gen = Activator.CreateInstance(TypeConvert.BEFORE_TYPES[before]) as IBeforeGen;
-            IAfterGen  after_gen  = Activator.CreateInstance(TypeConvert.AFTER_TYPES[after]) as IAfterGen;
+            TypeConvert.BEFORE_TYPES.TryGetValue(before, out var before_type);
+            TypeConvert.AFTER_TYPES.TryGetValue(after, out var after_type);
+
+            IBeforeGen before_gen = null;
+            IAfterGen  after_gen  = null;
+
+            if(before_type != null)
+            {
+                before_gen = Activator.CreateInstance(before_type) as IBeforeGen;
+            }
+
+            if(after_type != null)
+            {
+                after_gen = Activator.CreateInstance(after_type) as IAfterGen;
+            }
 
             before_gen?.Process();
 
@@ -43,7 +56,7 @@ namespace Luban.Editor
             bool redirect_standard_output = true;
             bool redirect_standard_error  = true;
             bool use_shell_execute        = false;
-            
+
             if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 redirect_standard_output = false;

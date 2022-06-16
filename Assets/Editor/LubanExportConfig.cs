@@ -43,7 +43,6 @@ namespace Luban.Editor
         [BoxGroup("必要参数")]
         public string which_dll;
 
-        [Required]
         [Category("-t")]
         [FolderPath(RequireExistingPath = true)]
         [LabelText("模板文件夹")]
