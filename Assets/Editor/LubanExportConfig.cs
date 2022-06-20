@@ -231,7 +231,7 @@ namespace Luban.Editor
                     continue;
                 }
 
-                var value = field_info.GetValue(this).ToString();
+                var value = field_info.GetValue(this)?.ToString();
 
                 // 当前值为空 或者 False, 或者 None(Enum 默认值)
                 // 则继续循环
