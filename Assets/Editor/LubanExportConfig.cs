@@ -1,8 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.Serialization;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -33,7 +37,7 @@ namespace Luban.Editor
 
         [Required]
         [LabelText(".Net 路径")]
-        [FilePath]
+        [FilePath(RequireExistingPath = true)]
         [BoxGroup("必要参数")]
         public string dotnet_path;
 
@@ -57,6 +61,7 @@ namespace Luban.Editor
         [Required]
         [Category("-d")]
         [FilePath(Extensions = "xml")]
+        [OnValueChanged(nameof(_OnDefineChange))]
         [LabelText("Root.xml")]
         [BoxGroup("必要参数")]
         public string define_xml;
@@ -79,7 +84,63 @@ namespace Luban.Editor
         [LabelText("生成类型")]
         [Tooltip("一般为 server, client 等")]
         [BoxGroup("必要参数")]
+        [ShowIf("@System.IO.File.Exists(define_xml)")]
+        [ValueDropdown(nameof(service_dropdown))]
         public string service;
+
+        private ValueDropdownList<string> service_dropdown
+        {
+            get
+            {
+                if(_service_dropdown != null)
+                {
+                    return _service_dropdown;
+                }
+
+                _service_dropdown = new ValueDropdownList<string>();
+
+                if(!File.Exists(define_xml))
+                {
+                    return _service_dropdown;
+                }
+
+                var doc = new XmlDocument();
+                doc.Load(define_xml);
+
+                XmlNodeList nodes = doc.DocumentElement.SelectNodes("service");
+
+                if(nodes is null || nodes.Count <= 0)
+                {
+                    return _service_dropdown;
+                }
+
+                for(int i = 0; i < nodes.Count; i++)
+                {
+                    string name = nodes[i].Attributes["name"].Value.Trim();
+
+                    if(string.IsNullOrEmpty(name))
+                    {
+                        continue;
+                    }
+
+                    _service_dropdown.Add(name);
+                }
+
+                return _service_dropdown;
+            }
+        }
+
+        private ValueDropdownList<string> _service_dropdown;
+
+        private void _OnDefineChange()
+        {
+            if(!File.Exists(define_xml))
+            {
+                return;
+            }
+
+            _service_dropdown = null;
+        }
 
         #endregion
 
