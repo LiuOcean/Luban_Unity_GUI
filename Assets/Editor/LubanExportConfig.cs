@@ -39,6 +39,7 @@ namespace Luban.Editor
         [LabelText(".Net 路径")]
         [FilePath(RequireExistingPath = true)]
         [BoxGroup("必要参数")]
+        [Tooltip("一般为 xxx/dotnet/dotnet.exe 文件")]
         public string dotnet_path;
 
         [Required]
