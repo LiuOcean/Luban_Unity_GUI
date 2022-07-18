@@ -57,6 +57,7 @@ namespace Luban.Editor
         data_flatbuffers_json = data_protobuf_json    << 1,
         convert_json          = data_flatbuffers_json << 1,
         convert_lua           = convert_json          << 1,
-        convert_xlsx          = convert_lua           << 1
+        convert_xlsx          = convert_lua           << 1,
+        data_bson             = convert_xlsx          << 1
     }
 }
