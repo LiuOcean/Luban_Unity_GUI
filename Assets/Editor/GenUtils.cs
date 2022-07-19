@@ -16,20 +16,28 @@ namespace Luban.Editor
         {
             Debug.Log(arguments);
 
-            TypeConvert.BEFORE_TYPES.TryGetValue(before, out var before_type);
-            TypeConvert.AFTER_TYPES.TryGetValue(after, out var after_type);
-
             IBeforeGen before_gen = null;
-            IAfterGen  after_gen  = null;
 
-            if(before_type != null)
+            if(!string.IsNullOrEmpty(before))
             {
-                before_gen = Activator.CreateInstance(before_type) as IBeforeGen;
+                var type = Type.GetType(before);
+
+                if(type != null)
+                {
+                    before_gen = Activator.CreateInstance(type) as IBeforeGen;
+                }
             }
 
-            if(after_type != null)
+            IAfterGen after_gen = null;
+
+            if(!string.IsNullOrEmpty(after))
             {
-                after_gen = Activator.CreateInstance(after_type) as IAfterGen;
+                var type = Type.GetType(after);
+
+                if(type != null)
+                {
+                    after_gen = Activator.CreateInstance(type) as IAfterGen;
+                }
             }
 
             before_gen?.Process();

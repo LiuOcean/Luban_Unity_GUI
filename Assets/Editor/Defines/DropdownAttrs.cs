@@ -1,35 +1,21 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using Sirenix.OdinInspector;
-using Sirenix.Utilities;
 using UnityEditor;
 
 namespace Luban.Editor
 {
-    internal static class TypeConvert
+    [IncludeMyAttributes]
+    [ValueDropdown("@BeforeGenSelectorAttribute.Get()")]
+    public class BeforeGenSelectorAttribute : Attribute
     {
-        static TypeConvert()
+        private static IEnumerable<ValueDropdownItem> Get()
         {
             var list = TypeCache.GetTypesDerivedFrom<IBeforeGen>();
 
-            foreach(var type in list)
-            {
-                var label_text = type.GetCustomAttribute<LabelTextAttribute>();
-
-                string name = type.Name;
-
-                BEFORE_GENS.Add("无", "");
-
-                if(label_text is not null)
-                {
-                    name = label_text.Text;
-                }
-
-                BEFORE_GENS.Add(name, type.FullName);
-                BEFORE_TYPES.Add(type.FullName, type);
-            }
-
-            list = TypeCache.GetTypesDerivedFrom<IAfterGen>();
+            yield return new ValueDropdownItem("无", "");
 
             foreach(var type in list)
             {
@@ -37,24 +23,40 @@ namespace Luban.Editor
 
                 string name = type.Name;
 
-                AFTER_GENS.Add("无", "");
-
                 if(label_text is not null)
                 {
                     name = label_text.Text;
                 }
 
-                AFTER_GENS.Add(name, type.FullName);
-                AFTER_TYPES.Add(type.FullName, type);
+                yield return new ValueDropdownItem(name, type.FullName);
             }
         }
+    }
 
-        public static readonly ValueDropdownList<string> BEFORE_GENS = new();
+    [IncludeMyAttributes]
+    [ValueDropdown("@AfterGenSelectorAttribute.Get()")]
+    public class AfterGenSelectorAttribute : Attribute
+    {
+        private static IEnumerable<ValueDropdownItem> Get()
+        {
+            var list = TypeCache.GetTypesDerivedFrom<IAfterGen>();
 
-        public static readonly Dictionary<string, Type> BEFORE_TYPES = new();
+            yield return new ValueDropdownItem("无", "");
 
-        public static readonly ValueDropdownList<string> AFTER_GENS = new();
+            foreach(var type in list)
+            {
+                var label_text = type.GetCustomAttribute<LabelTextAttribute>();
 
-        public static readonly Dictionary<string, Type> AFTER_TYPES = new();
+                string name = type.Name;
+
+
+                if(label_text is not null)
+                {
+                    name = label_text.Text;
+                }
+
+                yield return new ValueDropdownItem(name, type.FullName);
+            }
+        }
     }
 }

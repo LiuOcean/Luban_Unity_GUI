@@ -18,18 +18,15 @@ namespace Luban.Editor
         #region 生命周期
 
         [LabelText("生成前")]
-        [ValueDropdown(nameof(_before_gen_dropdowns))]
+        [BeforeGenSelector]
         [BoxGroup("生命周期")]
         public string before_gen;
 
-        private ValueDropdownList<string> _before_gen_dropdowns => TypeConvert.BEFORE_GENS;
-
         [LabelText("生成后")]
-        [ValueDropdown(nameof(_after_gen_dropdowns))]
+        [AfterGenSelector]
         [BoxGroup("生命周期")]
         public string after_gen;
 
-        private ValueDropdownList<string> _after_gen_dropdowns => TypeConvert.AFTER_GENS;
 
         #endregion
 
