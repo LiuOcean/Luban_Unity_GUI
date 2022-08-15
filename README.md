@@ -1,13 +1,20 @@
 # README
 
-## 使用方式
+## 项目依赖
 
-- 首先，项目中必须要有 `Odin` 的基础代码
+项目中需要有[Odin](https://assetstore.unity.com/packages/tools/utilities/odin-inspector-and-serializer-89041)这个工具
+
+## 导入工程方式
+
 - 如果使用 `UPM`可以在 `package.json` 中增加如下内容
 
 ```json
 "com.liuocean.luban_unity_gui":"https://github.com/LiuOcean/Luban_Unity_GUI.git?path=Assets/"
 ```
+
+- 或者直接Assets文件夹下的Editor文件夹和package.json直接复制到项目
+
+
 
 ## 创建配置文件
 

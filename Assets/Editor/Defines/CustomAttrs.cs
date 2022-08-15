@@ -36,7 +36,7 @@ namespace Luban.Editor
 
                 string name = type.Name;
 
-                if(label_text is not null)
+                if(label_text != null)
                 {
                     name = label_text.Text;
                 }
@@ -63,7 +63,7 @@ namespace Luban.Editor
                 string name = type.Name;
 
 
-                if(label_text is not null)
+                if(label_text != null)
                 {
                     name = label_text.Text;
                 }
