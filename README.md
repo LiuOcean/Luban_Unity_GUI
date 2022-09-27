@@ -1,5 +1,7 @@
 # README
 
+[![license](http://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
 ## 项目依赖
 
 项目中需要有[Odin](https://assetstore.unity.com/packages/tools/utilities/odin-inspector-and-serializer-89041)这个工具
