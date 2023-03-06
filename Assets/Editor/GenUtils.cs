@@ -50,7 +50,18 @@ namespace Luban.Editor
                 true
             );
 
-            Debug.Log(process.StandardOutput.ReadToEnd());
+            #region 捕捉生成错误
+            string processLog = process.StandardOutput.ReadToEnd();
+            Debug.Log(processLog);
+            if (!processLog.Contains("fail"))
+            {
+                Debug.Log("生成成功");
+            }
+            else
+            {
+                Debug.LogError("Error 过程出现错误");
+            }
+            #endregion
 
             after_gen?.Process();
 
