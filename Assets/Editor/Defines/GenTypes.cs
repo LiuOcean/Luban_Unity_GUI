@@ -26,8 +26,11 @@ namespace Luban.Editor
         [LabelText("TS 二进制代码")]
         code_typescript_bin = code_lua_bin << 1,
 
+        [LabelText("lua 代码")]
+        code_lua_lua = code_typescript_bin << 1,
+        
         [LabelText("Protobuf 代码")]
-        code_protobuf = code_typescript_bin << 1,
+        code_protobuf = code_lua_lua << 1,
 
         [LabelText("FlatBuffers 代码")]
         code_flatbuffers = code_protobuf << 1,
