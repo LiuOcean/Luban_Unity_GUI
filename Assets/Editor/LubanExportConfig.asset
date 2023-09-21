@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fed7fb4ed3b748f8a9f245b9b9bc97fa, type: 3}
+  m_Name: LubanExportConfig
+  m_EditorClassIdentifier: 
+  config:
+    data_dir: Datas
+    groups:
+    - names: c
+      is_default: 1
+    - names: s
+      is_default: 1
+    - names: e
+      is_default: 1
+    schema_files:
+    - file_name: Defines
+      type: 
+    - file_name: Datas/Table.xlsx
+      type: table
+    - file_name: Datas/Beans.xlsx
+      type: bean
+    - file_name: Datas/Enums.xlsx
+      type: enum
+    targets:
+    - name: server
+      manager: Tables
+      groups: s
+      top_module: 
+    - name: client
+      manager: Tables
+      groups: c
+      top_module: 
+    - name: all
+      manager: Tables
+      groups: c, s, e
+      top_module: 
+  dropdown:
+    _key_data:
+    - code_target
+    - data_target
+    - code_style
+    - data_exporter
+    - output_saver
+    - schema_collector
+    - pipeline
+    - l10n_text_provider_name
+    _value_data:
+    - cs-bin, cs-simple-json, cs-dotnet-json, cs-editor-json, lua-lua, lua-bin, java-bin,
+      java-json, cpp-bin, go-bin, go-json, python-json, dgscript-json, typescript-json,
+      protobuf2, protobuf3, flatbuffers
+    - bin, bin-offset, json, lua, xml, yml, bson, msgpack, protobuf-bin, protobuf-json,
+      flatbuffers-json, text-list
+    - none, csharp-default, java-default, go-default, lua-default, typescript-default,
+      cpp-default, python-default
+    - null, default
+    - null, local
+    - default
+    - default
+    - default
+  target: server
+  luban_conf_path: 123
+  force_load_table_datas: 0
+  verbose: 0
+  validation_fail_as_error: 0
+  schema_collector: 
+  pipeline: 
+  include_tag: 
+  exclude_tag: 
+  time_zone: 
+  custom_template_dir: 
+  output_table: []
+  multi_code_target: 0
+  code_target: 
+  code_targets: []
+  multi_data_target: 0
+  data_target: 
+  data_targets: []
+  output_code_dir: 
+  output_data_dir: 
+  code_style: 
+  data_exporter: 
+  output_saver: 
+  l10n_text_provider_name: 
+  l10n_text_provider_file: 
+  l10n_text_list_file: 
+  path_validator_root_dir: 
+  code_postprocess: []
+  data_postprocess: []

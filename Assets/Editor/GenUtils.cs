@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using UnityEditor;
 using Debug = UnityEngine.Debug;
 
@@ -10,6 +11,7 @@ namespace Luban.Editor
 {
     internal static class GenUtils
     {
+        [UsedImplicitly]
         internal static readonly string _DOTNET =
             RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "dotnet.exe" : "dotnet";
 
@@ -19,11 +21,11 @@ namespace Luban.Editor
 
             IBeforeGen before_gen = null;
 
-            if (!string.IsNullOrEmpty(before))
+            if(!string.IsNullOrEmpty(before))
             {
                 var type = Type.GetType(before);
 
-                if (type != null)
+                if(type != null)
                 {
                     before_gen = Activator.CreateInstance(type) as IBeforeGen;
                 }
@@ -31,11 +33,11 @@ namespace Luban.Editor
 
             IAfterGen after_gen = null;
 
-            if (!string.IsNullOrEmpty(after))
+            if(!string.IsNullOrEmpty(after))
             {
                 var type = Type.GetType(after);
 
-                if (type != null)
+                if(type != null)
                 {
                     after_gen = Activator.CreateInstance(type) as IAfterGen;
                 }
@@ -51,12 +53,14 @@ namespace Luban.Editor
             );
 
             #region 捕捉生成错误
+
             string processLog = process.StandardOutput.ReadToEnd();
             Debug.Log(processLog);
-            if (process.ExitCode != 0)
+            if(process.ExitCode != 0)
             {
                 Debug.LogError("Error  生成出现错误");
             }
+
             #endregion
 
             after_gen?.Process();
@@ -67,49 +71,49 @@ namespace Luban.Editor
         private static Process _Run(string exe,
                                     string arguments,
                                     string working_dir = ".",
-                                    bool wait_exit = false)
+                                    bool   wait_exit   = false)
         {
             try
             {
                 bool redirect_standard_output = true;
-                bool redirect_standard_error = true;
-                bool use_shell_execute = false;
+                bool redirect_standard_error  = true;
+                bool use_shell_execute        = false;
 
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
                     redirect_standard_output = false;
-                    redirect_standard_error = false;
-                    use_shell_execute = true;
+                    redirect_standard_error  = false;
+                    use_shell_execute        = true;
                 }
 
-                if (wait_exit)
+                if(wait_exit)
                 {
                     redirect_standard_output = true;
-                    redirect_standard_error = true;
-                    use_shell_execute = false;
+                    redirect_standard_error  = true;
+                    use_shell_execute        = false;
                 }
 
                 ProcessStartInfo info = new ProcessStartInfo
                 {
-                    FileName = exe,
-                    Arguments = arguments,
-                    CreateNoWindow = true,
-                    UseShellExecute = use_shell_execute,
-                    WorkingDirectory = working_dir,
+                    FileName               = exe,
+                    Arguments              = arguments,
+                    CreateNoWindow         = true,
+                    UseShellExecute        = use_shell_execute,
+                    WorkingDirectory       = working_dir,
                     RedirectStandardOutput = redirect_standard_output,
-                    RedirectStandardError = redirect_standard_error,
+                    RedirectStandardError  = redirect_standard_error,
                 };
 
                 Process process = Process.Start(info);
 
-                if (wait_exit)
+                if(wait_exit)
                 {
                     WaitForExitAsync(process).ConfigureAwait(false);
                 }
 
                 return process;
             }
-            catch (Exception e)
+            catch(Exception e)
             {
                 throw new Exception($"dir: {Path.GetFullPath(working_dir)}, command: {exe} {arguments}", e);
             }
@@ -117,7 +121,7 @@ namespace Luban.Editor
 
         private static async Task WaitForExitAsync(this Process self)
         {
-            if (!self.HasExited)
+            if(!self.HasExited)
             {
                 return;
             }
@@ -126,9 +130,9 @@ namespace Luban.Editor
             {
                 self.EnableRaisingEvents = true;
             }
-            catch (InvalidOperationException)
+            catch(InvalidOperationException)
             {
-                if (self.HasExited)
+                if(self.HasExited)
                 {
                     return;
                 }
@@ -144,7 +148,7 @@ namespace Luban.Editor
 
             try
             {
-                if (self.HasExited)
+                if(self.HasExited)
                 {
                     return;
                 }
