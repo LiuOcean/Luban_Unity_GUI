@@ -16,16 +16,10 @@
 
 - 或者直接Assets文件夹下的Editor文件夹和package.json直接复制到项目
 
-
-
 ## 创建配置文件
 
-在 `Assets` 中，右键 `Create/Luban/ExportConfig` 即可
+在 `Assets` 中，右键 `Create/Luban/ExportConfig` 即可, 或者打开 ProjectSetting/Luban, 会自动创建
 
-如果项目中需要多种配置，可以考虑创建多个配置文件，加载好后，调用 `Gen` 来生成
-
-## 生命周期
-
-在项目 `Editor` 代码定义继承 `IBeforeGen` 和 `IAfterGen`
 
 ![image](https://github.com/LiuOcean/Luban_Unity_GUI/raw/main/Pics/GUI_Display.png)
+![image](https://github.com/LiuOcean/Luban_Unity_GUI/raw/main/Pics/GUI_Display_2.png)

@@ -17,3 +17,5 @@ Assets/Scripts.meta
 *.DS_Store
 
 UserSettings/Layouts/
+Assets/Editor/LubanExportConfig.asset
+Assets/Editor/LubanExportConfig.asset.meta
