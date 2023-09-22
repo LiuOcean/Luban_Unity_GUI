@@ -20,6 +20,11 @@
 
 在 `Assets` 中，右键 `Create/Luban/ExportConfig` 即可, 或者打开 ProjectSetting/Luban, 会自动创建
 
+## 自定义下拉菜单
+
+在 `预配置项/选单扩展` 中, 你可以自由定义 key 和 value, 工具提供了 Luban 默认的实现, 如果你的项目有自定义的功能按需修改即可
+
+在 `参数配置/用户自定义额外参数` 中, 下拉菜单的数据都来自于选单扩展中的配置, 最后会生成 `-x xxxkey=value` 或者 `-x xxxkey` 
 
 ![image](https://github.com/LiuOcean/Luban_Unity_GUI/raw/main/Pics/GUI_Display.png)
 ![image](https://github.com/LiuOcean/Luban_Unity_GUI/raw/main/Pics/GUI_Display_2.png)
