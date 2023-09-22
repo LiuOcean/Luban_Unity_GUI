@@ -143,7 +143,7 @@ namespace Luban.Editor
 
         [JsonProperty("groups")] private string[] _groups { get; set; }
 
-        [JsonProperty]
+        [JsonProperty("topModule")]
         [VerticalGroup("命名空间")]
         [HideLabel]
         public string top_module;
