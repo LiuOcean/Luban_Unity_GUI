@@ -1,18 +1,16 @@
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
+using CliWrap;
 using Newtonsoft.Json;
 using Sirenix.OdinInspector;
+using UnityEditor;
 using UnityEngine;
 
 namespace Luban.Editor
 {
     public partial class LubanExportConfig
     {
-        internal static readonly string DOTNET = RuntimeInformation.IsOSPlatform(OSPlatform.Windows)
-            ? "dotnet.exe"
-            : "dotnet";
-
         internal static readonly string LINE_END = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "^\n" : "\\\n";
 
         [TabGroup("Split", "预览命令")]
@@ -32,6 +30,7 @@ namespace Luban.Editor
         {
             var sb = new StringBuilder();
 
+            sb.Append($"{luban_dll} {LINE_END}");
             sb.Append($"--conf {luban_conf_path} {LINE_END}");
             sb.Append($"-t {target} {LINE_END}");
 
@@ -225,7 +224,7 @@ namespace Luban.Editor
 
             _command_args = sb.ToString().TrimEnd(LINE_END.ToCharArray());
 
-            command = $"{DOTNET} {_command_args}";
+            command = $"{dotnet_path} {_command_args}";
         }
 
         [TabGroup("Split", "预览命令")]
@@ -239,7 +238,7 @@ namespace Luban.Editor
             }
 
             var full_path = Path.GetFullPath(luban_conf_path);
-            
+
             var dir = Path.GetDirectoryName(full_path);
 
             if(!Directory.Exists(dir))
@@ -253,12 +252,20 @@ namespace Luban.Editor
             }
 
             config.PrepareJson();
-            
+
             var json = JsonConvert.SerializeObject(config, Formatting.Indented);
 
             File.WriteAllText(full_path, json);
-            
-            // TODO Run
+
+            var cli = Cli.Wrap(dotnet_path).WithArguments(_command_args).WithWorkingDirectory(".") |
+                      (Debug.Log, Debug.LogError);
+
+            var result = cli.ExecuteAsync().GetAwaiter().GetResult();
+
+            if(result.ExitCode != 0)
+            {
+                EditorUtility.DisplayDialog("错误", "请检查日志", "确定");
+            }
         }
     }
 }

@@ -8,6 +8,12 @@ namespace Luban.Editor
     public partial class LubanExportConfig
     {
         [Required]
+        [LabelText("dotnet 路径")]
+        [TabGroup("Split", "参数配置")]
+        [BoxGroup("Split/参数配置/必要参数")]
+        public string dotnet_path;
+        
+        [Required]
         [LabelText("生成目标")]
         [TabGroup("Split", "参数配置")]
         [BoxGroup("Split/参数配置/必要参数")]
@@ -19,6 +25,13 @@ namespace Luban.Editor
         [TabGroup("Split", "参数配置")]
         [BoxGroup("Split/参数配置/必要参数")]
         public string luban_conf_path;
+
+        [Required]
+        [LabelText("luban dll")]
+        [TabGroup("Split", "参数配置")]
+        [BoxGroup("Split/参数配置/必要参数")]
+        [FilePath(Extensions = "dll", RequireExistingPath = true)]
+        public string luban_dll;
 
         [LabelText("强行加载配置数据")]
         [TabGroup("Split", "参数配置")]
