@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using JetBrains.Annotations;
 using UnityEditor;
 using Debug = UnityEngine.Debug;
 
@@ -11,59 +10,23 @@ namespace Luban.Editor
 {
     internal static class GenUtils
     {
-        [UsedImplicitly]
-        internal static readonly string _DOTNET =
-            RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "dotnet.exe" : "dotnet";
-
-        public static void Gen(string arguments, string before, string after)
+        public static void Gen(string exe, string arguments)
         {
-            Debug.Log(arguments);
-
-            IBeforeGen before_gen = null;
-
-            if(!string.IsNullOrEmpty(before))
-            {
-                var type = Type.GetType(before);
-
-                if(type != null)
-                {
-                    before_gen = Activator.CreateInstance(type) as IBeforeGen;
-                }
-            }
-
-            IAfterGen after_gen = null;
-
-            if(!string.IsNullOrEmpty(after))
-            {
-                var type = Type.GetType(after);
-
-                if(type != null)
-                {
-                    after_gen = Activator.CreateInstance(type) as IAfterGen;
-                }
-            }
-
-            before_gen?.Process();
-
             var process = _Run(
-                _DOTNET,
+                exe,
                 arguments,
                 ".",
                 true
             );
 
-            #region 捕捉生成错误
+            string process_log = process.StandardOutput.ReadToEnd();
 
-            string processLog = process.StandardOutput.ReadToEnd();
-            Debug.Log(processLog);
+            Debug.Log(process_log);
+
             if(process.ExitCode != 0)
             {
                 Debug.LogError("Error  生成出现错误");
             }
-
-            #endregion
-
-            after_gen?.Process();
 
             AssetDatabase.Refresh();
         }

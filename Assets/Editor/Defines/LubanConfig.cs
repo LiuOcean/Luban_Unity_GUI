@@ -136,7 +136,7 @@ namespace Luban.Editor
         [HideLabel]
         public string manager = "Tables";
 
-        [JsonProperty]
+        [JsonIgnore]
         [VerticalGroup("分组")]
         [HideLabel]
         public string groups;

@@ -1,13 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Xml;
-using System.Xml.Linq;
-using System.Xml.Serialization;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -66,12 +57,5 @@ namespace Luban.Editor
             
             ResetDropdownDic();
         }
-
-        // private string _GetCommand()
-        // {
-        //     string line_end = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? " ^" : " \\";
-        //
-        //     return sb.ToString();
-        // }
     }
 }
