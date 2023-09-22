@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -232,10 +233,7 @@ namespace Luban.Editor
         [Button("执行")]
         public void RunCommand()
         {
-            if(string.IsNullOrEmpty(_command_args))
-            {
-                PreviewCommand();
-            }
+            PreviewCommand();
 
             var full_path = Path.GetFullPath(luban_conf_path);
 
@@ -260,10 +258,13 @@ namespace Luban.Editor
             var cli = Cli.Wrap(dotnet_path).WithArguments(_command_args).WithWorkingDirectory(".") |
                       (Debug.Log, Debug.LogError);
 
-            var result = cli.ExecuteAsync().GetAwaiter().GetResult();
-
-            if(result.ExitCode != 0)
+            try
             {
+                cli.ExecuteAsync().GetAwaiter().GetResult();
+            }
+            catch(Exception e)
+            {
+                Debug.LogException(e);
                 EditorUtility.DisplayDialog("错误", "请检查日志", "确定");
             }
         }
