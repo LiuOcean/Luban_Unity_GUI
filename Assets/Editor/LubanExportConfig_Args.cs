@@ -7,12 +7,14 @@ namespace Luban.Editor
 {
     public partial class LubanExportConfig
     {
+        
         [Required]
         [LabelText("dotnet 路径")]
         [TabGroup("Split", "参数配置")]
         [BoxGroup("Split/参数配置/必要参数")]
+        [ShowIf("IS_MACOS")]
         public string dotnet_path;
-        
+
         [Required]
         [LabelText("生成目标")]
         [TabGroup("Split", "参数配置")]

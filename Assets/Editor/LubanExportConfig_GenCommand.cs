@@ -3,6 +3,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 using CliWrap;
+using JetBrains.Annotations;
 using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 using UnityEditor;
@@ -12,7 +13,14 @@ namespace Luban.Editor
 {
     public partial class LubanExportConfig
     {
-        internal static readonly string LINE_END = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "^\n" : "\\\n";
+        internal static readonly bool IS_WINDOWS = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+
+        [UsedImplicitly]
+        internal static readonly bool IS_MACOS = RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
+
+        internal static readonly string BAT_FILE = "gen.bat";
+
+        internal static readonly string LINE_END = IS_WINDOWS ? "^\n" : "\\\n";
 
         [TabGroup("Split", "预览命令")]
         [BoxGroup("Split/预览命令/Command")]
@@ -225,6 +233,11 @@ namespace Luban.Editor
 
             _command_args = sb.ToString().TrimEnd(LINE_END.ToCharArray());
 
+            if(IS_WINDOWS)
+            {
+                dotnet_path = "dotnet";
+            }
+
             command = $"{dotnet_path} {_command_args}";
         }
 
@@ -255,8 +268,23 @@ namespace Luban.Editor
 
             File.WriteAllText(full_path, json);
 
-            var cli = Cli.Wrap(dotnet_path).WithArguments(_command_args).WithWorkingDirectory(".") |
-                      (Debug.Log, Debug.LogError);
+            string exe;
+            string args;
+
+            if(IS_WINDOWS)
+            {
+                exe  = "cmd";
+                args = $"/c \"{BAT_FILE}\"";
+
+                File.WriteAllText($"./{BAT_FILE}", command);
+            }
+            else
+            {
+                exe  = dotnet_path;
+                args = _command_args;
+            }
+
+            var cli = Cli.Wrap(exe).WithArguments(args).WithWorkingDirectory(".") | (Debug.Log, Debug.LogError);
 
             try
             {
@@ -266,6 +294,13 @@ namespace Luban.Editor
             {
                 Debug.LogException(e);
                 EditorUtility.DisplayDialog("错误", "请检查日志", "确定");
+            }
+            finally
+            {
+                if(File.Exists(BAT_FILE))
+                {
+                    File.Delete(BAT_FILE);
+                }
             }
         }
     }
