@@ -144,7 +144,7 @@ namespace Luban.Editor
                         continue;
                     }
 
-                    sb.Append($"-x {target.code_type}.outputDataDir={target.output_dir} {LINE_END}");
+                    sb.Append($"-x {target.code_type}.outputCodeDir={target.output_dir} {LINE_END}");
                 }
             }
             else if(!string.IsNullOrEmpty(output_code_dir))
@@ -161,7 +161,7 @@ namespace Luban.Editor
                         continue;
                     }
 
-                    sb.AppendLine($"-x {target.data_type}.outputCodeDir={target.output_dir} {LINE_END}");
+                    sb.Append($"-x {target.data_type}.outputDataDir={target.output_dir} {LINE_END}");
                 }
             }
             else if(!string.IsNullOrEmpty(output_data_dir))
@@ -206,7 +206,7 @@ namespace Luban.Editor
 
             if(!string.IsNullOrEmpty(l10n_text_list_file))
             {
-                sb.Append($"-x l10n.textProviderFile={l10n_text_list_file} {LINE_END}");
+                sb.Append($"-x l10n.textListFile={l10n_text_list_file} {LINE_END}");
             }
 
             if(!string.IsNullOrEmpty(path_validator_root_dir))
