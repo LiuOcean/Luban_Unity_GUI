@@ -41,6 +41,8 @@ namespace Luban.Editor
                 nameof(code_style),
                 "csharp-default, java-default, go-default, lua-default, typescript-default, cpp-default, python-default"
             );
+            
+            dropdown.Add("lineEnding", ",crlf, lf, cr");
 
             dropdown.Add(nameof(data_exporter), "default");
 
